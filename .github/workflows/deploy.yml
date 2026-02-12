@@ -1,4 +1,4 @@
-name: $bog_bzrl_app
+name: $bog_brl_app
 
 permissions: write-all
 
@@ -16,10 +16,10 @@ jobs:
         steps:
             - uses: hyoo-ru/mam_build@master2
               with:
-                  package: "bog/bzrl"
+                  package: "bog/brl"
                   modules: "app"
 
             - uses: hyoo-ru/gh-deploy@v4.4.1
               if: github.ref == 'refs/heads/master'
               with:
-                  folder: "bog/bzrl/app/-"
+                  folder: "bog/brl/app/-"

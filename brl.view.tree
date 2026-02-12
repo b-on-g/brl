@@ -1,0 +1,734 @@
+$bog_brl $mol_view
+	page? \home
+	property_id? null
+	mobile_open? false
+	sub /
+		<= Header $bog_brl_header
+			page? <=> page? \home
+			mobile_open? <=> mobile_open? false
+		<= Mobile_nav $bog_brl_mobile_nav
+			page? <=> page? \home
+			mobile_open? <=> mobile_open? false
+		<= Deck $bog_brl_deck
+			items /
+				<= Home_page $bog_brl_home
+				<= Catalog_page $bog_brl_catalog
+				<= Property_page $bog_brl_property
+					property_id? <=> property_id? null
+				<= Landlords_page $bog_brl_landlords
+				<= About_page $bog_brl_about
+				<= Contacts_page $bog_brl_contacts
+			current <= page_index \
+		<= Footer $bog_brl_footer
+			page? <=> page? \home
+
+$bog_brl_deck $mol_deck
+	Switch null
+
+$bog_brl_header $mol_view
+	page? \home
+	mobile_open? false
+	sub /
+		<= Header_inner $bog_brl_container
+			sub /
+				<= Logo $mol_link
+					uri <= home_link \
+					sub /
+						<= Logo_mark $mol_view
+							sub / \BZ
+						<= Logo_text $mol_view
+							sub / \BZRL
+				<= Nav $mol_view
+					sub /
+						<= Nav_home $bog_brl_nav_link
+							label \Главная
+							uri <= home_link \
+						<= Nav_catalog $bog_brl_nav_link
+							label \Недвижимость
+							uri <= catalog_link \
+						<= Nav_landlords $bog_brl_nav_link
+							label \Арендодателям
+							uri <= landlords_link \
+						<= Nav_about $bog_brl_nav_link
+							label \О проекте
+							uri <= about_link \
+						<= Nav_contacts $bog_brl_nav_link
+							label \Контакты
+							uri <= contacts_link \
+						<= Nav_cta $bog_brl_nav_cta
+							uri <= telegram_url \
+				<= Burger $bog_brl_burger
+					click? <=> burger_toggle? null
+
+$bog_brl_nav_link $mol_link
+	label \
+	sub / <= label \
+
+$bog_brl_nav_cta $mol_link
+	label \Написать
+	attr *
+		^
+		target \_blank
+		rel \noopener
+	sub /
+		<= Nav_cta_icon $mol_view
+			sub / \✈
+		<= Nav_cta_text $mol_text
+			text <= label \Написать
+
+$bog_brl_burger $mol_button
+	sub /
+		<= Burger_line_1 $mol_view
+		<= Burger_line_2 $mol_view
+		<= Burger_line_3 $mol_view
+
+$bog_brl_mobile_nav $mol_view
+	page? \home
+	mobile_open? false
+	attr *
+		bog_brl_mobile_nav_open <= mobile_open? false
+	sub /
+		<= Mobile_home $bog_brl_mobile_link
+			label \Главная
+			click? <=> mobile_home_click? null
+		<= Mobile_catalog $bog_brl_mobile_link
+			label \Недвижимость
+			click? <=> mobile_catalog_click? null
+		<= Mobile_landlords $bog_brl_mobile_link
+			label \Арендодателям
+			click? <=> mobile_landlords_click? null
+		<= Mobile_about $bog_brl_mobile_link
+			label \О проекте
+			click? <=> mobile_about_click? null
+		<= Mobile_contacts $bog_brl_mobile_link
+			label \Контакты
+			click? <=> mobile_contacts_click? null
+		<= Mobile_cta $bog_brl_btn_telegram
+			label \✈ Написать в Telegram
+			uri <= telegram_url \
+
+$bog_brl_mobile_link $mol_button
+	label \
+	sub / <= label \
+
+$bog_brl_btn_primary $mol_link
+	label \
+	sub / <= label \
+
+$bog_brl_btn_telegram $mol_link
+	label \
+	attr *
+		^
+		target \_blank
+		rel \noopener
+	sub / <= label \
+
+$bog_brl_btn_phone $mol_link
+	label \
+	sub / <= label \
+
+$bog_brl_container $mol_view
+	sub /
+
+$bog_brl_stat $mol_view
+	number \
+	label \
+	sub /
+		<= Stat_number $mol_text
+			text <= number \
+		<= Stat_label $mol_text
+			text <= label \
+
+$bog_brl_step $mol_view
+	num \
+	icon \
+	title \
+	text \
+	sub /
+		<= Step_num $mol_text
+			text <= num \
+		<= Step_icon $mol_text
+			text <= icon \
+		<= Step_title $mol_text
+			text <= title \
+		<= Step_text $mol_text
+			text <= text \
+
+$bog_brl_adv $mol_view
+	icon \
+	theme \muted
+	title \
+	text \
+	attr *
+		bog_brl_adv_theme <= theme \muted
+	sub /
+		<= Adv_icon $mol_text
+			text <= icon \
+		<= Adv_title $mol_text
+			text <= title \
+		<= Adv_text $mol_text
+			text <= text \
+
+$bog_brl_property_card $mol_link
+	image \
+	badge \
+	badge_house false
+	price \
+	address \
+	meta_rooms \
+	meta_area \
+	meta_floor \
+	attr *
+		^
+		bog_brl_property_badge_house <= badge_house false
+	sub /
+		<= Card_image $mol_view
+			sub /
+				<= Card_image_pic $mol_image
+					uri <= image \
+				<= Card_badge $mol_text
+					text <= badge \
+		<= Card_body $mol_view
+			sub /
+				<= Card_price $mol_view
+					sub /
+						<= Card_price_value $mol_text
+							text <= price \
+						<= Card_price_unit $mol_view
+							sub / \/ мес
+				<= Card_address $mol_text
+					text <= address \
+				<= Card_meta $mol_view
+					sub /
+						<= Card_meta_rooms $mol_text
+							text <= meta_rooms \
+						<= Card_meta_area $mol_text
+							text <= meta_area \
+						<= Card_meta_floor $mol_text
+							text <= meta_floor \
+
+$bog_brl_gallery_dot $mol_button
+	active false
+	attr *
+		^
+		bog_brl_gallery_dot_active <= active false
+
+$bog_brl_feature $mol_view
+	text \
+	sub /
+		<= Feature_check $mol_view
+			sub / \✓
+		<= Feature_text $mol_text
+			text <= text \
+
+$bog_brl_spec $mol_view
+	label \
+	value \
+	sub /
+		<= Spec_label $mol_text
+			text <= label \
+		<= Spec_value $mol_text
+			text <= value \
+
+$bog_brl_deal_row $mol_view
+	label \
+	value \
+	sub /
+		<= Deal_label $mol_text
+			text <= label \
+		<= Deal_value $mol_text
+			text <= value \
+
+$bog_brl_landlord_benefit $mol_view
+	icon \
+	title \
+	text \
+	sub /
+		<= Benefit_icon $mol_text
+			text <= icon \
+		<= Benefit_body $mol_view
+			sub /
+				<= Benefit_title $mol_text
+					text <= title \
+				<= Benefit_text $mol_text
+					text <= text \
+
+$bog_brl_commission_item $mol_view
+	text \
+	sub /
+		<= Commission_check $mol_view
+			sub / \✓
+		<= Commission_text $mol_text
+			text <= text \
+
+$bog_brl_about_value $mol_view
+	icon \
+	title \
+	text \
+	sub /
+		<= About_value_icon $mol_text
+			text <= icon \
+		<= About_value_body $mol_view
+			sub /
+				<= About_value_title $mol_text
+					text <= title \
+				<= About_value_text $mol_text
+					text <= text \
+
+$bog_brl_contact_card $mol_view
+	icon \
+	theme \tg
+	title \
+	text \
+	link_label \
+	link_uri \
+	note \
+	attr *
+		bog_brl_contact_card_theme <= theme \tg
+	sub /
+		<= Contact_icon $mol_text
+			text <= icon \
+		<= Contact_title $mol_text
+			text <= title \
+		<= Contact_text $mol_text
+			text <= text \
+		<= Contact_link? $mol_link
+			uri <= link_uri \
+			sub /
+				<= Contact_link_text $mol_text
+					text <= link_label \
+		<= Contact_note? $mol_text
+			text <= note \
+
+$bog_brl_footer_link $mol_link
+	label \
+	sub / <= label \
+
+$bog_brl_home $mol_view
+	sub /
+		<= Hero $mol_view
+			sub /
+				<= Hero_container $bog_brl_container
+					sub /
+						<= Hero_content $mol_view
+							sub /
+								<= Hero_badge $mol_view
+									sub /
+										<= Hero_badge_dot $mol_view
+										<= Hero_badge_text $mol_view
+											sub / \Казань · Долгосрочная аренда
+								<= Hero_title $mol_view
+									sub /
+										<= Hero_title_prefix $mol_view
+											sub / \Находим жильё
+										<= Hero_title_em $mol_view
+											sub / \честно
+										<= Hero_title_suffix $mol_view
+											sub / \и ведём сделку до ключей
+								<= Hero_sub $mol_view
+									sub / \Мы — сервис-посредник по аренде квартир и домов. Проверяем объекты, отбираем арендаторов, сопровождаем сделку. Прозрачные условия для обеих сторон.
+								<= Hero_commission $mol_view
+									sub /
+										<= Hero_commission_icon $mol_view
+											sub / \💰
+										<= Hero_commission_text $mol_view
+											sub /
+												\Фиксированная комиссия —
+												<= Hero_commission_value $mol_view
+													sub / \20% от месячной аренды
+								<= Hero_actions $mol_view
+									sub /
+										<= Hero_action_primary $bog_brl_btn_primary
+											label \Смотреть объекты →
+											uri <= catalog_link \
+										<= Hero_action_telegram $bog_brl_btn_telegram
+											label \✈ Написать в Telegram
+											uri <= telegram_url \
+						<= Stats $mol_view
+							sub <= stats_rows /$mol_view
+								<= Stat* $bog_brl_stat
+									number <= stat_number* \
+									label <= stat_label* \
+		<= How $mol_view
+			sub /
+				<= How_container $bog_brl_container
+					sub /
+						<= How_header $mol_view
+							sub /
+								<= How_title $mol_view
+									sub / \Как мы работаем
+								<= How_text $mol_view
+									sub / \Пять шагов от первого звонка до ключей
+						<= Steps $mol_view
+							sub <= steps_rows /$mol_view
+								<= Step* $bog_brl_step
+									num <= step_num* \
+									icon <= step_icon* \
+									title <= step_title* \
+									text <= step_text* \
+		<= Advantages $mol_view
+			sub /
+				<= Advantages_container $bog_brl_container
+					sub /
+						<= Advantages_header $mol_view
+							sub /
+								<= Advantages_title $mol_view
+									sub / \Почему работают с нами
+								<= Advantages_text $mol_view
+									sub / \Самая низкая и прозрачная комиссия на рынке Казани
+						<= Advantages_grid $mol_view
+							sub <= advantages_rows /$mol_view
+								<= Advantage* $bog_brl_adv
+									icon <= adv_icon* \
+									theme <= adv_theme* \
+									title <= adv_title* \
+									text <= adv_text* \
+
+$bog_brl_catalog $mol_view
+	sub /
+		<= Catalog_section $mol_view
+			sub /
+				<= Container $bog_brl_container
+					sub /
+						<= Section_header $mol_view
+							sub /
+								<= Section_title $mol_view
+									sub / \Недвижимость в Казани
+								<= Section_text $mol_view
+									sub / \Проверенные объекты · Долгосрочная аренда · Комиссия 20%
+						<= Filters $mol_view
+							sub /
+								<= Filter_type $mol_view
+									sub /
+										<= Filter_type_label $mol_view
+											sub / \Тип
+										<= Filter_type_select $mol_select
+											value? <=> filter_type_draft? \
+											dictionary <= filter_type_dict *
+								<= Filter_rooms $mol_view
+									sub /
+										<= Filter_rooms_label $mol_view
+											sub / \Комнаты
+										<= Filter_rooms_select $mol_select
+											value? <=> filter_rooms_draft? \
+											dictionary <= filter_rooms_dict *
+								<= Filter_district $mol_view
+									sub /
+										<= Filter_district_label $mol_view
+											sub / \Район
+										<= Filter_district_select $mol_select
+											value? <=> filter_district_draft? \
+											dictionary <= filter_district_dict *
+								<= Filter_price_min $mol_view
+									sub /
+										<= Filter_price_min_label $mol_view
+											sub / \Цена от
+										<= Filter_price_min_input $mol_string
+											value? <=> filter_price_min_draft? \
+											hint \15 000
+								<= Filter_price_max $mol_view
+									sub /
+										<= Filter_price_max_label $mol_view
+											sub / \Цена до
+										<= Filter_price_max_input $mol_string
+											value? <=> filter_price_max_draft? \
+											hint \80 000
+								<= Filter_apply $mol_button
+									click? <=> apply_filters? null
+									sub / \Найти
+								<= Filter_reset $mol_button
+									click? <=> reset_filters? null
+									sub / \Сбросить
+						<= Results_count $mol_view
+							sub /
+								<= Results_text $mol_view
+									sub / \Найдено:
+								<= Results_value $mol_text
+									text <= results_count_value \
+								<= Results_word $mol_text
+									text <= results_count_word \
+						<= Properties_grid $mol_view
+							sub <= property_rows /$mol_view
+								<= Property_card* $bog_brl_property_card
+									uri <= property_link* \
+									image <= property_image* \
+									badge <= property_badge* \
+									badge_house <= property_badge_house* false
+									price <= property_price* \
+									address <= property_address* \
+									meta_rooms <= property_meta_rooms* \
+									meta_area <= property_meta_area* \
+									meta_floor <= property_meta_floor* \
+
+$bog_brl_property $mol_view
+	property_id? null
+	sub /
+		<= Property_section $mol_view
+			sub /
+				<= Container $bog_brl_container
+					sub /
+						<= Back_link $mol_link
+							uri <= catalog_link \
+							sub / \← Назад к каталогу
+						<= Property_grid $mol_view
+							sub /
+								<= Property_main $mol_view
+									sub /
+										<= Gallery $mol_view
+											sub /
+												<= Gallery_image $mol_image
+													uri <= current_image \
+												<= Gallery_arrows $mol_view
+													sub /
+														<= Gallery_prev $mol_button
+															click? <=> prev_image? null
+															sub / \‹
+														<= Gallery_next $mol_button
+															click? <=> next_image? null
+															sub / \›
+												<= Gallery_nav $mol_view
+													sub <= dot_rows /$mol_view
+														<= Gallery_dot* $bog_brl_gallery_dot
+															active <= dot_active* false
+															click? <=> dot_select*? null
+										<= Property_info $mol_view
+											sub /
+												<= Property_title $mol_text
+													text <= property_title \
+												<= Property_desc $mol_text
+													text <= property_description \
+												<= Property_features_title $mol_view
+													sub / \Удобства
+												<= Property_features $mol_view
+													sub <= feature_rows /$mol_view
+														<= Feature* $bog_brl_feature
+															text <= feature_text* \
+								<= Property_sidebar $mol_view
+									sub /
+										<= Sidebar_price $mol_view
+											sub /
+												<= Sidebar_price_value $mol_text
+													text <= sidebar_price_value \
+												<= Sidebar_price_unit $mol_view
+													sub / \/ мес
+										<= Sidebar_type $mol_view
+											attr *
+												bog_brl_sidebar_type_house <= sidebar_type_house false
+											sub /
+												<= Sidebar_type_text $mol_text
+													text <= sidebar_type \
+										<= Sidebar_specs $mol_view
+											sub <= spec_rows /$mol_view
+												<= Spec* $bog_brl_spec
+													label <= spec_label* \
+													value <= spec_value* \
+										<= Deal_terms $mol_view
+											sub /
+												<= Deal_title $mol_view
+													sub / \Условия сделки
+												<= Deal_rows $mol_view
+													sub <= deal_rows /$mol_view
+														<= Deal_row* $bog_brl_deal_row
+															label <= deal_label* \
+															value <= deal_value* \
+										<= Sidebar_contacts $mol_view
+											sub /
+												<= Sidebar_telegram $bog_brl_btn_telegram
+													label \✈ Написать в Telegram
+													uri <= telegram_url \
+												<= Sidebar_phone $bog_brl_btn_phone
+													label <= phone_label \
+													uri <= phone_url \
+
+$bog_brl_landlords $mol_view
+	sub /
+		<= Landlord_hero $mol_view
+			sub /
+				<= Landlord_hero_container $bog_brl_container
+					sub /
+						<= Landlord_badge $mol_view
+							sub /
+								<= Landlord_badge_dot $mol_view
+								<= Landlord_badge_text $mol_view
+									sub / \Для собственников
+						<= Landlord_title $mol_view
+							sub /
+								<= Landlord_title_prefix $mol_view
+									sub / \Сдайте квартиру или дом
+								<= Landlord_title_em $mol_view
+									sub / \без головной боли
+						<= Landlord_sub $mol_view
+							sub / \Мы берём на себя подбор арендаторов, показы, договор и контроль. Вы получаете надёжного жильца. Комиссия — всего 20%.
+		<= Landlord_section $mol_view
+			sub /
+				<= Landlord_section_container $bog_brl_container
+					sub /
+						<= Landlord_grid $mol_view
+							sub /
+								<= Landlord_benefits $mol_view
+									sub <= landlord_benefit_rows /$mol_view
+										<= Benefit* $bog_brl_landlord_benefit
+											icon <= landlord_benefit_icon* \
+											title <= landlord_benefit_title* \
+											text <= landlord_benefit_text* \
+								<= Landlord_cta $mol_view
+									sub /
+										<= Landlord_cta_title $mol_view
+											sub / \Хотите сдать объект?
+										<= Landlord_cta_text $mol_view
+											sub / \Напишите нам — обсудим условия, сроки и следующие шаги. Без обязательств.
+										<= Landlord_cta_contacts $mol_view
+											sub /
+												<= Landlord_cta_telegram $bog_brl_btn_telegram
+													label \✈ Написать в Telegram
+													uri <= telegram_url \
+												<= Landlord_cta_phone $bog_brl_btn_phone
+													label <= phone_label \
+													uri <= phone_url \
+						<= Commission_explainer $mol_view
+							sub /
+								<= Commission_title $mol_view
+									sub / \За что вы платите 20%?
+								<= Commission_list $mol_view
+									sub <= commission_rows /$mol_view
+										<= Commission_item* $bog_brl_commission_item
+											text <= commission_text* \
+
+$bog_brl_about $mol_view
+	sub /
+		<= About_section $mol_view
+			sub /
+				<= Container $bog_brl_container
+					sub /
+						<= About_grid $mol_view
+							sub /
+								<= About_visual $mol_view
+									sub /
+										<= About_visual_title $mol_view
+											sub / \Мы отвечаем за процесс и баланс интересов
+										<= About_visual_text $mol_view
+											sub / \Не просто сводим людей — ведём сделку от звонка до ключей. Посредник, который работает на обе стороны одинаково честно.
+								<= About_text $mol_view
+									sub /
+										<= About_title $mol_view
+											sub / \Прозрачная аренда в Казани
+										<= About_paragraph_1 $mol_view
+											sub / \BZRL — сервис-посредник по аренде квартир и домов в Казани. Мы не скрываем свою роль: наша задача — сделать аренду безопасной и понятной для обеих сторон.
+										<= About_paragraph_2 $mol_view
+											sub / \Фиксированная комиссия 20% — самая низкая на рынке. Нет сделки — нет оплаты.
+										<= About_paragraph_3 $mol_view
+											sub / \Каждый объект проверяется лично. Каждый арендатор проходит отбор. Договор — до передачи денег.
+										<= About_values $mol_view
+											sub <= about_value_rows /$mol_view
+												<= About_value* $bog_brl_about_value
+													icon <= about_value_icon* \
+													title <= about_value_title* \
+													text <= about_value_text* \
+
+$bog_brl_contacts $mol_view
+	sub /
+		<= Contacts_section $mol_view
+			sub /
+				<= Container $bog_brl_container
+					sub /
+						<= Section_header $mol_view
+							sub /
+								<= Section_title $mol_view
+									sub / \Контакты
+								<= Section_text $mol_view
+									sub / \Свяжитесь любым удобным способом — без форм и ожиданий
+						<= Contacts_grid $mol_view
+							sub /
+								<= Contact_tg $bog_brl_contact_card
+									icon \✈
+									theme \tg
+									title \Telegram
+									text \Основной способ связи. Отвечаем в течение часа.
+									link_label \@yusdanil →
+									link_uri \https://t.me/yusdanil
+								<= Contact_phone $bog_brl_contact_card
+									icon \📞
+									theme \phone
+									title \Телефон
+									text \Для срочных вопросов. Пн–Сб, 9:00–20:00.
+									link_label \+7 999 132-31-41 →
+									link_uri \tel:+79991323141
+								<= Contact_addr $bog_brl_contact_card
+									icon \📍
+									theme \addr
+									title \Казань
+									text \Работаем по всем районам. Квартиры и дома.
+									note \Встречи по договорённости
+
+$bog_brl_footer $mol_view
+	page? \home
+	sub /
+		<= Container $bog_brl_container
+			sub /
+				<= Footer_grid $mol_view
+					sub /
+						<= Footer_brand $mol_view
+							sub /
+								<= Footer_logo $mol_link
+									uri <= home_link \
+									sub /
+										<= Footer_logo_mark $mol_view
+											sub / \BZ
+										<= Footer_logo_text $mol_view
+											sub / \BZRL
+								<= Footer_brand_text $mol_view
+									sub / \Сервис-посредник по аренде недвижимости в Казани. Квартиры и дома · Комиссия 20%.
+						<= Footer_nav $mol_view
+							sub /
+								<= Footer_nav_title $mol_view
+									sub / \Навигация
+								<= Footer_nav_links $mol_view
+									sub /
+										<= Footer_link_home $bog_brl_footer_link
+											label \Главная
+											uri <= home_link \
+										<= Footer_link_catalog $bog_brl_footer_link
+											label \Недвижимость
+											uri <= catalog_link \
+										<= Footer_link_landlords $bog_brl_footer_link
+											label \Арендодателям
+											uri <= landlords_link \
+										<= Footer_link_about $bog_brl_footer_link
+											label \О проекте
+											uri <= about_link \
+										<= Footer_link_contacts $bog_brl_footer_link
+											label \Контакты
+											uri <= contacts_link \
+						<= Footer_contacts $mol_view
+							sub /
+								<= Footer_contacts_title $mol_view
+									sub / \Связаться
+								<= Footer_contacts_links $mol_view
+									sub /
+										<= Footer_tg $bog_brl_footer_link
+											label \Telegram: @yusdanil
+											uri <= telegram_url \
+										<= Footer_phone $bog_brl_footer_link
+											label \+7 999 132-31-41
+											uri <= phone_url \
+						<= Footer_info $mol_view
+							sub /
+								<= Footer_info_title $mol_view
+									sub / \Информация
+								<= Footer_info_links $mol_view
+									sub /
+										<= Footer_info_contract $bog_brl_footer_link
+											label \Типовой договор
+											uri \#
+										<= Footer_info_faq $bog_brl_footer_link
+											label \Частые вопросы
+											uri \#
+										<= Footer_info_privacy $bog_brl_footer_link
+											label \Политика конфиденциальности
+											uri \#
+				<= Footer_bottom $mol_view
+					sub /
+						<= Footer_copy $mol_view
+							sub / \© 2025 BZRL. Все права защищены.
+						<= Footer_location $mol_view
+							sub / \Казань · Аренда недвижимости

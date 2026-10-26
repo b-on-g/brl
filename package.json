@@ -143,6 +143,7 @@
     "$mol_button_typed",
     "$mol_dom_event",
     "$mol_action",
+    "$mol_dom_transfer",
     "$mol_state_session",
     "$mol_state",
     "$mol_link",
